@@ -1,0 +1,38 @@
+From d3b1a3e0b97103f275c4d100c9d3c26e1062931b Mon Sep 17 00:00:00 2001
+From: Dalon Westergreen <dwesterg@gmail.com>
+Date: Tue, 9 Aug 2016 17:06:34 -0700
+Subject: [PATCH 3/3] remove & since we moved to full path for overlay terget
+
+---
+ Sopc2DTS.java                                | 1 +
+ sopc2dts/lib/devicetree/DTPropTargetVal.java | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Sopc2DTS.java b/Sopc2DTS.java
+index 57de307..1766f29 100644
+--- a/Sopc2DTS.java
++++ b/Sopc2DTS.java
+@@ -78,6 +78,7 @@ public class Sopc2DTS implements LogListener {
+ 	protected static final String programName = "sopc2dts";
+ 	private static String programVersion = Package.getPackage("sopc2dts").getImplementationVersion();;
+ 	private Vector<String> vInfoFileNames = new Vector<String>();
++	private Vector<String> vdtsiFileNames = new Vector<String>();
+ 
+ 	/**
+ 	 * @param args
+diff --git a/sopc2dts/lib/devicetree/DTPropTargetVal.java b/sopc2dts/lib/devicetree/DTPropTargetVal.java
+index 4601f0a..b9584cc 100644
+--- a/sopc2dts/lib/devicetree/DTPropTargetVal.java
++++ b/sopc2dts/lib/devicetree/DTPropTargetVal.java
+@@ -57,7 +57,7 @@ public class DTPropTargetVal extends DTPropVal {
+ 	}
+ 	@Override
+ 	public String toString() {
+-		return '&' + label;
++		return label;
+ 	}
+ 
+ }
+-- 
+2.5.5
+

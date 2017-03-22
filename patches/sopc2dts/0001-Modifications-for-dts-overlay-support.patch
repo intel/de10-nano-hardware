@@ -1,0 +1,479 @@
+From e77bda55146f7ecbfcc22a820e35412e97c962f3 Mon Sep 17 00:00:00 2001
+From: Dalon Westergreen <dwesterg@gmail.com>
+Date: Wed, 3 Aug 2016 11:45:52 -0700
+Subject: [PATCH] Modifications for dts overlay support 	-> cleaned up
+ __overlay__ entries for compatibility,etc 	-> Add support for
+ firmware-name and external-config 	-> HACK: forced addition of bridge
+ ranges to __overlay__ node 	-> Get rid of symbol generation in DTS
+ Overlay, this is handled 		by dtc
+
+---
+ Sopc2DTS.java                                |   9 +-
+ sopc2dts/generators/DTGenerator.java         | 191 ++++++++++++++++++---------
+ sopc2dts/generators/DTSGenerator2.java       |  11 +-
+ sopc2dts/lib/BoardInfo.java                  |  19 ++-
+ sopc2dts/lib/devicetree/DTPropTargetVal.java |  63 +++++++++
+ 5 files changed, 224 insertions(+), 69 deletions(-)
+ create mode 100644 sopc2dts/lib/devicetree/DTPropTargetVal.java
+
+diff --git a/Sopc2DTS.java b/Sopc2DTS.java
+index da701df..a120c35 100644
+--- a/Sopc2DTS.java
++++ b/Sopc2DTS.java
+@@ -58,6 +58,9 @@ public class Sopc2DTS implements LogListener {
+ 	protected CLParameter bridgeRemoval = new CLParameter("balanced");
+ 	protected CLParameter outputFileName = new CLParameter("");
+ 	protected CLParameter outputType = new CLParameter("dts");
++	protected CLParameter overlayTarget = new CLParameter("");
++	protected CLParameter externalFpgaConfig = new CLParameter("");
++	protected CLParameter firmwareName = new CLParameter("");
+ 	protected CLParameter pov = new CLParameter("");
+ 	protected CLParameter povType = new CLParameter("cpu");
+ 	protected CLParameter bootargs = new CLParameter("");
+@@ -114,8 +117,10 @@ public class Sopc2DTS implements LogListener {
+ 		vOptions.add(new CommandLineOption("no-timestamp", null, excludeTimeStamp, false, false, "Don't add a timestamp to generated files", null));
+ 		vOptions.add(new CommandLineOption("input", 	"i", inputFileName, 	true, true, "The sopcinfo file (optional in gui mode)", "sopcinfo file"));
+ 		vOptions.add(new CommandLineOption("output",	"o", outputFileName,	true, false,"The output filename","filename"));
++		vOptions.add(new CommandLineOption("overlay-target",null, overlayTarget,true, false,"Target node for dt-overlay","node-label"));
++		vOptions.add(new CommandLineOption("firmware-name",null, firmwareName,true, false,"DTS overlay FPGA configuration RBF name, if not specified we assume external configuration","node-label"));
+ 		vOptions.add(new CommandLineOption("pov", 		"p", pov,		 		true, false,"The point of view to generate from. Defaults to the first cpu found", "component name"));
+-		vOptions.add(new CommandLineOption("pov-type", 	null, povType,			true, false,"The point of view device type", "{cpu,pci}"));
++		vOptions.add(new CommandLineOption("pov-type", 	null, povType,			true, false,"The point of view device type", "{cpu,pci,overlay}"));
+ 		vOptions.add(new CommandLineOption("reset",		null, showReset,		false,false,"Show reset interfaces in graph", null));
+ 		vOptions.add(new CommandLineOption("sort", 		"s", sort,		 		true, false,"Sort components by", "{none,address,name,label}"));
+ 		vOptions.add(new CommandLineOption("streaming",	null, showStreaming,	false,false,"Show streaming interfaces in graph", null));
+@@ -154,6 +159,8 @@ public class Sopc2DTS implements LogListener {
+ 			bInfo = new BoardInfo();
+ 		}
+ 		SICBridge.setRemovalStrategy(bridgeRemoval.value);
++		bInfo.setOverlayTarget(overlayTarget.value);
++		bInfo.setFirmwareName(firmwareName.value);
+ 		if(pov.value.length()>0)
+ 		{
+ 			bInfo.setPov(pov.value);
+diff --git a/sopc2dts/generators/DTGenerator.java b/sopc2dts/generators/DTGenerator.java
+index b88450c..6564595 100644
+--- a/sopc2dts/generators/DTGenerator.java
++++ b/sopc2dts/generators/DTGenerator.java
+@@ -21,6 +21,7 @@ package sopc2dts.generators;
+ 
+ import java.util.Collections;
+ import java.util.Comparator;
++import java.util.HashMap;
+ import java.util.Vector;
+ 
+ import sopc2dts.Logger;
+@@ -47,6 +48,7 @@ import sopc2dts.lib.devicetree.DTPropByteVal;
+ import sopc2dts.lib.devicetree.DTPropHexNumVal;
+ import sopc2dts.lib.devicetree.DTPropNumVal;
+ import sopc2dts.lib.devicetree.DTPropPHandleVal;
++import sopc2dts.lib.devicetree.DTPropTargetVal;
+ import sopc2dts.lib.devicetree.DTPropStringVal;
+ import sopc2dts.lib.devicetree.DTPropVal;
+ import sopc2dts.lib.devicetree.DTProperty;
+@@ -58,87 +60,100 @@ public abstract class DTGenerator extends AbstractSopcGenerator {
+ 		super(s, isText);
+ 	}
+ 
+-	protected synchronized DTNode getDTOutput(BoardInfo bi)
++	protected synchronized DTNode getDTOutput(BoardInfo bi) {
++		return getDTOutput(bi, false);
++	}
++
++	protected synchronized DTNode getDTOutput(BoardInfo bi, boolean doAddSymbolsNode)
+ 	{
+ 		vHandled = new Vector<BasicComponent>();
+ 		DTNode rootNode = new DTNode("/");
+ 		BasicComponent povComponent = getPovComponent(bi);
+-		DTNode sopcNode;
+-		DTNode chosenNode;
+-		DTNode clocksNode = null;
+ 		if(povComponent!=null)
+ 		{
++			DTNode sopcNode = null;
++			DTNode chosenNode = null;
++			DTNode clocksNode = null;
+ 			int addrCells = povComponent.getInterfaces(SystemDataType.MEMORY_MAPPED, true).firstElement().getPrimaryWidth();
+ 			int sizeCells = povComponent.getInterfaces(SystemDataType.MEMORY_MAPPED, true).firstElement().getSecondaryWidth();
+-			if(bi.getPovType().equals(PovType.CPU))
+-			{
+-				DTNode cpuNode = getCpuNodes(bi, povComponent);
+-				DTNode memNode = getMemoryNode(bi, povComponent, addrCells, sizeCells);
+-				DTNode aliasNode = null;
+-				sopcNode = new DTNode("sopc@0", "sopc0");
+-				chosenNode = getChosenNode(bi);
+-				clocksNode = getClocksNode(bi);
+-				rootNode.addProperty(new DTProperty("model","ALTR," + sys.getSystemName()));
+-				rootNode.addProperty(new DTProperty("compatible","ALTR," + sys.getSystemName()));
+-				rootNode.addProperty(new DTProperty("#address-cells", (long)addrCells));
+-				rootNode.addProperty(new DTProperty("#size-cells",(long)sizeCells));
+-				Vector<Parameter> vAliases = bi.getAliases();
+-				if (vAliases.size() > 0) {
+-					aliasNode = new DTNode("aliases");
+-					for (Parameter p : vAliases) {
+-						aliasNode.addProperty(new DTProperty(p.getName(),p.getValue()));
++			switch(bi.getPovType()) {
++				case CPU: {
++					DTNode cpuNode = getCpuNodes(bi, povComponent);
++					DTNode memNode = getMemoryNode(bi, povComponent, addrCells, sizeCells);
++					sopcNode = new DTNode("sopc@0", "sopc0");
++					DTNode aliasNode = getAliasNode(bi, povComponent,"/" + sopcNode.getName());
++					chosenNode = getChosenNode(bi);
++					clocksNode = getClocksNode(bi);
++					rootNode.addProperty(new DTProperty("model","ALTR," + sys.getSystemName()));
++					rootNode.addProperty(new DTProperty("compatible","ALTR," + sys.getSystemName()));
++					rootNode.addProperty(new DTProperty("#address-cells", (long)addrCells));
++					rootNode.addProperty(new DTProperty("#size-cells",(long)sizeCells));
++					if(aliasNode!=null) {
++					    rootNode.addChild(aliasNode);
+ 					}
+-				}
+-				vAliases = bi.getAliasRefs();
+-				if (vAliases.size() > 0) {
+-					if(aliasNode==null) {
+-						aliasNode = new DTNode("aliases");
+-					}
+-					for (Parameter p : vAliases) {
+-						BasicComponent slave = sys.getComponentByName(p.getValue());
+-						if(slave!=null) {
+-							Vector<Connection> vConn = sys.getConnectionPath(povComponent, slave,SystemDataType.MEMORY_MAPPED);
+-							String path="/" + sopcNode.getName();
+-							for(Connection c : vConn) {
+-								path += "/" + c.getSlaveModule().getScd().getGroup() + "@" + DTHelper.longArrToHexString(c.getConnValue());
+-							}
+-							if(path.length()>0) {
+-								aliasNode.addProperty(new DTProperty(p.getName(),path));								
+-							} else {
+-								Logger.logln(this, "Failed to find component '" + p.getValue() +"' path for alias: " + p.getName(), LogLevel.WARNING);
+-							}
+-						} else {
+-							Logger.logln(this, "Failed to find component '" + p.getValue() +"' for alias: " + p.getName(), LogLevel.WARNING);
+-						}
++					rootNode.addChild(cpuNode);
++					rootNode.addChild(memNode);
++					sopcNode.addProperty(new DTProperty("device_type", "soc"));
++				} break;
++				case OVERLAY: {
++					DTNode fragmentNode = new DTNode("fragment@0");
++					fragmentNode.addProperty(new DTProperty("target", new DTPropTargetVal(bi.getOverlayTarget())));
++					sopcNode = new DTNode("__overlay__");
++					if(bi.getFirmwareName().equals(""))
++					{
++						sopcNode.addProperty(new DTProperty("external-fpga-config"));
++					}else{
++						sopcNode.addProperty(new DTProperty("firmware-name", new DTPropStringVal(bi.getFirmwareName())));
+ 					}
++					fragmentNode.addChild(sopcNode);
++					rootNode.addChild(fragmentNode);
++				} break;
++				case PCI: {
++					sopcNode = rootNode;
++					DTProperty rangeProp = new DTProperty("ranges");
++					rangeProp.addHexValues(new long[] {
++							0x00000000,
++							0x02000000, 0, 0x90000000,
++							0x10000000,
++					});
++					sopcNode.addProperty(rangeProp);
+ 				}
+-				
+-				if(aliasNode!=null) {
+-				    rootNode.addChild(aliasNode);
+-				}
+-				rootNode.addChild(cpuNode);
+-				rootNode.addChild(memNode);
+-				sopcNode.addProperty(new DTProperty("device_type", "soc"));
+-			} else {
+-				sopcNode = rootNode;
+-				chosenNode = null;
+ 			}
+ 			sopcNode = getSlavesFor(bi, povComponent, sopcNode);
+-			sopcNode.addProperty(new DTProperty("ranges"));
+ 			sopcNode.addProperty(new DTProperty("#address-cells",(long)addrCells));
+ 			sopcNode.addProperty(new DTProperty("#size-cells",(long)sizeCells));
+-			Vector<String> vCompat = new Vector<String>();
+-			vCompat.add("ALTR,avalon");
+-			vCompat.add("simple-bus");
+-			sopcNode.addProperty(new DTProperty("compatible", vCompat.toArray(new String[]{})));
+-			sopcNode.addProperty(new DTProperty("bus-frequency", povComponent.getClockRate()));
++			
++			if(bi.getPovType().equals(PovType.OVERLAY)) {
++				DTProperty rangeProp = new DTProperty("ranges");
++				rangeProp.addHexValues(new long[] {
++					0, 0x0, 0xc0000000, 0x20000000,
++					1, 0x0, 0xff200000, 0x00200000,
++				});
++				rangeProp.setNumValuesPerRow(4);
++				sopcNode.addProperty(rangeProp);
++			}else{
++				Vector<String> vCompat = new Vector<String>();
++				vCompat.add("ALTR,avalon");
++				vCompat.add("simple-bus");
++				sopcNode.addProperty(new DTProperty("compatible", vCompat.toArray(new String[]{})));
++				sopcNode.addProperty(new DTProperty("bus-frequency", povComponent.getClockRate()));
++				rootNode.addChild(clocksNode);
++			}			
++
+ 			if(bi.getPovType().equals(PovType.CPU))
+ 			{
+-				if(clocksNode!=null) {
+-					rootNode.addChild(clocksNode);
+-				}
+ 				rootNode.addChild(sopcNode);
+-				rootNode.addChild(chosenNode);
++			}
++			rootNode.addChild(chosenNode);
++			if(doAddSymbolsNode) {
++				HashMap<String,String> symbolMap = getSymbols(bi, rootNode, "");
++				if(!symbolMap.isEmpty()) {
++					DTNode symbolsNode = new DTNode("__symbols__");
++					for(String key : symbolMap.keySet()) {
++						symbolsNode.addProperty(new DTProperty(key, symbolMap.get(key)));
++					}
++					rootNode.addChild(symbolsNode);
++				}
+ 			}
+ 		}
+ 		doDTAppend(rootNode,bi);
+@@ -251,6 +266,41 @@ public abstract class DTGenerator extends AbstractSopcGenerator {
+ 		}
+ 	}
+ 
++	DTNode getAliasNode(BoardInfo bi, BasicComponent povComp, String basePath)
++	{
++		DTNode aliasNode = null;
++		Vector<Parameter> vAliases = bi.getAliases();
++		if (vAliases.size() > 0) {
++			aliasNode = new DTNode("aliases");
++			for (Parameter p : vAliases) {
++				aliasNode.addProperty(new DTProperty(p.getName(),p.getValue()));
++			}
++		}
++		vAliases = bi.getAliasRefs();
++		if (vAliases.size() > 0) {
++			if(aliasNode==null) {
++				aliasNode = new DTNode("aliases");
++			}
++			for (Parameter p : vAliases) {
++				BasicComponent slave = sys.getComponentByName(p.getValue());
++				if(slave!=null) {
++					Vector<Connection> vConn = sys.getConnectionPath(povComp, slave,SystemDataType.MEMORY_MAPPED);
++					String path=basePath;
++					for(Connection c : vConn) {
++						path += "/" + c.getSlaveModule().getScd().getGroup() + "@" + DTHelper.longArrToHexString(c.getConnValue());
++					}
++					if(path.length()>0) {
++						aliasNode.addProperty(new DTProperty(p.getName(),path));
++					} else {
++						Logger.logln(this, "Failed to find component '" + p.getValue() +"' path for alias: " + p.getName(), LogLevel.WARNING);
++					}
++				} else {
++					Logger.logln(this, "Failed to find component '" + p.getValue() +"' for alias: " + p.getName(), LogLevel.WARNING);
++				}
++			}
++		}
++		return aliasNode;
++	}
+ 	DTNode getChosenNode(BoardInfo bi)
+ 	{
+ 		DTNode chosenNode = new DTNode("chosen");
+@@ -395,7 +445,7 @@ public abstract class DTGenerator extends AbstractSopcGenerator {
+ 			return memNode;
+ 		}
+ 	}
+-	
++
+ 	DTNode getSlavesFor(BoardInfo bi, BasicComponent masterComp, DTNode masterNode)
+ 	{
+ 		if(masterComp!=null)
+@@ -424,6 +474,19 @@ public abstract class DTGenerator extends AbstractSopcGenerator {
+ 		}
+ 		return masterNode;
+ 	}
++	HashMap<String,String> getSymbols(BoardInfo bi, DTNode rootNode, String basePath)
++	{
++		HashMap<String,String> symbolMap = new HashMap<String, String>();
++		for(DTNode child : rootNode.getChildren()) {
++			if(child.getLabel()!=null) {
++				symbolMap.put(child.getLabel(), basePath + "/" + child.getName());
++			}
++			if(!child.getChildren().isEmpty()) {
++				symbolMap.putAll(getSymbols(bi, child, basePath + "/" + child.getName()));
++			}
++		}
++		return symbolMap;
++	}
+ 	protected static void sortSlaves(Vector<Connection> vConn, final SortType sort) {
+ 		if(!sort.equals(SortType.NONE)) {
+ 			Collections.sort(vConn, new Comparator<Connection>() {
+diff --git a/sopc2dts/generators/DTSGenerator2.java b/sopc2dts/generators/DTSGenerator2.java
+index aa67ff1..de11e7a 100644
+--- a/sopc2dts/generators/DTSGenerator2.java
++++ b/sopc2dts/generators/DTSGenerator2.java
+@@ -1,7 +1,7 @@
+ /*
+ sopc2dts - Devicetree generation for Altera systems
+ 
+-Copyright (C) 2012 Walter Goossens <waltergoossens@home.nl>
++Copyright (C) 2012 - 2015 Walter Goossens <waltergoossens@home.nl>
+ 
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+@@ -21,6 +21,7 @@ package sopc2dts.generators;
+ 
+ import sopc2dts.lib.AvalonSystem;
+ import sopc2dts.lib.BoardInfo;
++import sopc2dts.lib.BoardInfo.PovType;
+ import sopc2dts.lib.devicetree.DTNode;
+ 
+ public class DTSGenerator2 extends DTGenerator {
+@@ -31,8 +32,12 @@ public class DTSGenerator2 extends DTGenerator {
+ 
+ 	@Override
+ 	public String getTextOutput(BoardInfo bi) {
+-		String res = getSmallCopyRightNotice("devicetree", bi.isIncludeTime())
+-					+ "/dts-v1/;\n";
++		String res = getSmallCopyRightNotice("devicetree", bi.isIncludeTime());
++		if(bi.getPovType() == PovType.OVERLAY) {
++			res += "/dts-v1/ /plugin/;\n";
++		}else{
++			res += "/dts-v1/;\n";
++		}
+ 		DTNode rootNode = getDTOutput(bi);
+ 		res += rootNode.toString();
+ 		return res;
+diff --git a/sopc2dts/lib/BoardInfo.java b/sopc2dts/lib/BoardInfo.java
+index 1c5093c..3c6af13 100644
+--- a/sopc2dts/lib/BoardInfo.java
++++ b/sopc2dts/lib/BoardInfo.java
+@@ -47,7 +47,7 @@ import sopc2dts.lib.components.BasicComponent;
+ import sopc2dts.lib.components.base.FlashPartition;
+ 
+ public class BoardInfo implements ContentHandler {
+-	public enum PovType { CPU, PCI };
++	public enum PovType { CPU, PCI, OVERLAY };
+ 	public enum SortType { NONE, ADDRESS, NAME, LABEL };
+ 	public enum RangesStyle { NONE, FOR_BRIDGE, FOR_EACH_CHILD };
+ 	public enum AltrStyle { AUTO, FORCE_UPPER, FORCE_LOWER };
+@@ -60,6 +60,7 @@ public class BoardInfo implements ContentHandler {
+ 	boolean showConduits = false;
+ 	boolean showResets = false;
+ 	boolean showStreaming = false;
++	boolean externalFpgaConfig = true;
+ 	Vector<FlashPartition> vPartitions;
+ 	Vector<String> vMemoryNodes;
+ 	Vector<BoardInfoComponent> vBics = new Vector<BoardInfoComponent>();
+@@ -71,6 +72,8 @@ public class BoardInfo implements ContentHandler {
+ 	String bootArgs;
+ 	BoardInfoComponent currBic;
+ 	private AltrStyle altrStyle = AltrStyle.AUTO;
++	private String overlayTarget = "";
++	private String firmwareName = "";
+ 	private String pov = "";
+ 	private PovType povType = PovType.CPU;
+ 	private RangesStyle rangesStyle = RangesStyle.FOR_EACH_CHILD;
+@@ -352,6 +355,8 @@ public class BoardInfo implements ContentHandler {
+ 				povTypeName.equalsIgnoreCase("pcie"))
+ 		{
+ 			setPovType(PovType.PCI);
++		} else if(povTypeName.equalsIgnoreCase("overlay")) {
++			setPovType(PovType.OVERLAY);
+ 		}
+ 	}
+ 	public void setRangesStyle(RangesStyle rangesStyle) {
+@@ -382,6 +387,12 @@ public class BoardInfo implements ContentHandler {
+ 			setSortType(SortType.NONE);
+ 		}
+ 	}
++	public String getOverlayTarget() {
++		return overlayTarget;
++	}
++	public String getFirmwareName() {
++		return firmwareName;
++	}
+ 	public void setPartitionsForchip(String instanceName, Vector<FlashPartition> vParts) {
+ 		mFlashPartitions.put(instanceName, vParts);
+ 	}
+@@ -541,4 +552,10 @@ public class BoardInfo implements ContentHandler {
+ 	public void setIncludeTime(boolean includeTime) {
+ 		this.includeTime = includeTime;
+ 	}
++	public void setOverlayTarget(String overlayTarget) {
++		this.overlayTarget = overlayTarget;
++	}
++	public void setFirmwareName(String firmwareName) {
++		this.firmwareName = firmwareName;
++	}
+ }
+diff --git a/sopc2dts/lib/devicetree/DTPropTargetVal.java b/sopc2dts/lib/devicetree/DTPropTargetVal.java
+new file mode 100644
+index 0000000..4601f0a
+--- /dev/null
++++ b/sopc2dts/lib/devicetree/DTPropTargetVal.java
+@@ -0,0 +1,63 @@
++/*
++sopc2dts - Devicetree generation for Altera systems
++
++Copyright (C) 2013 - 2014 Walter Goossens <waltergoossens@home.nl>
++
++This library is free software; you can redistribute it and/or
++modify it under the terms of the GNU Lesser General Public
++License as published by the Free Software Foundation; either
++version 2.1 of the License, or (at your option) any later version.
++
++This library is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++Lesser General Public License for more details.
++
++You should have received a copy of the GNU Lesser General Public
++License along with this library; if not, write to the Free Software
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
++*/
++package sopc2dts.lib.devicetree;
++
++import sopc2dts.lib.components.BasicComponent;
++
++public class DTPropTargetVal extends DTPropVal {
++	String label;
++	long pHandle;
++	
++	public DTPropTargetVal(BasicComponent comp) {
++		this(comp.getInstanceName());
++	}
++	public DTPropTargetVal(String lab) {
++		this(lab,0);
++	}
++	public DTPropTargetVal(String lab, long ph) {
++		super(DTPropType.PHANDLE, "\"", "\"", " ");
++		label = lab;
++		pHandle = ph;
++	}
++
++	@Override
++	protected byte[] getValueBytes() {
++		byte[] buff = new byte[4];
++		DTBlob.putU32(pHandle, buff, 0);
++		return buff;
++	}
++	public String getLabel() {
++		return label;
++	}
++	public void setLabel(String l) {
++		this.label = l;
++	}
++	public long getpHandle() {
++		return pHandle;
++	}
++	public void setpHandle(long pHandle) {
++		this.pHandle = pHandle;
++	}
++	@Override
++	public String toString() {
++		return '&' + label;
++	}
++
++}
+-- 
+2.5.5
+

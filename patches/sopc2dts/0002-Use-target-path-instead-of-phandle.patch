@@ -1,0 +1,39 @@
+From 34fa7811efad7c7a16c39a9e2bcd2b633b5f2e5b Mon Sep 17 00:00:00 2001
+From: Dalon Westergreen <dwesterg@gmail.com>
+Date: Tue, 9 Aug 2016 10:45:10 -0700
+Subject: [PATCH 2/2] Use target-path instead of phandle
+
+---
+ Sopc2DTS.java                        | 2 +-
+ sopc2dts/generators/DTGenerator.java | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Sopc2DTS.java b/Sopc2DTS.java
+index a120c35..57de307 100644
+--- a/Sopc2DTS.java
++++ b/Sopc2DTS.java
+@@ -117,7 +117,7 @@ public class Sopc2DTS implements LogListener {
+ 		vOptions.add(new CommandLineOption("no-timestamp", null, excludeTimeStamp, false, false, "Don't add a timestamp to generated files", null));
+ 		vOptions.add(new CommandLineOption("input", 	"i", inputFileName, 	true, true, "The sopcinfo file (optional in gui mode)", "sopcinfo file"));
+ 		vOptions.add(new CommandLineOption("output",	"o", outputFileName,	true, false,"The output filename","filename"));
+-		vOptions.add(new CommandLineOption("overlay-target",null, overlayTarget,true, false,"Target node for dt-overlay","node-label"));
++		vOptions.add(new CommandLineOption("overlay-target",null, overlayTarget,true, false,"Target PATH for dt-overlay","node-label"));
+ 		vOptions.add(new CommandLineOption("firmware-name",null, firmwareName,true, false,"DTS overlay FPGA configuration RBF name, if not specified we assume external configuration","node-label"));
+ 		vOptions.add(new CommandLineOption("pov", 		"p", pov,		 		true, false,"The point of view to generate from. Defaults to the first cpu found", "component name"));
+ 		vOptions.add(new CommandLineOption("pov-type", 	null, povType,			true, false,"The point of view device type", "{cpu,pci,overlay}"));
+diff --git a/sopc2dts/generators/DTGenerator.java b/sopc2dts/generators/DTGenerator.java
+index 6564595..527ba33 100644
+--- a/sopc2dts/generators/DTGenerator.java
++++ b/sopc2dts/generators/DTGenerator.java
+@@ -97,7 +97,7 @@ public abstract class DTGenerator extends AbstractSopcGenerator {
+ 				} break;
+ 				case OVERLAY: {
+ 					DTNode fragmentNode = new DTNode("fragment@0");
+-					fragmentNode.addProperty(new DTProperty("target", new DTPropTargetVal(bi.getOverlayTarget())));
++					fragmentNode.addProperty(new DTProperty("target-path", new DTPropTargetVal(bi.getOverlayTarget())));
+ 					sopcNode = new DTNode("__overlay__");
+ 					if(bi.getFirmwareName().equals(""))
+ 					{
+-- 
+2.5.5
+
