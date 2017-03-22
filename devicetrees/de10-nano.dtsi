@@ -27,6 +27,13 @@
 				clock-output-names = "pll_stream-clk";
 			};
 
+			custom_reset_synchronizer: custom_reset_synchronizer {
+				compatible = "fixed-clock";
+				#clock-cells;
+				clock-frequency;
+				clock-output-names = "custom_reset_synchronizer-clk";
+			};
+
 			// Add gpio-leds definitions
 			leds: leds {
 				compatible = "gpio-leds";
@@ -145,30 +152,6 @@
 				reg = <0>;      /* chip select */                               
 				spi-max-frequency = <1000000>;                                  
 				enable-dma = <1>;                                               
-			};
-		};
-	};
-
-	// Display
-	fragment@5 {
-		target-path = "/aliases";
-		__overlay__ {
-			display0 = &framebuffer0;
-		};
-	};
-
-	// Simple Framebuffer
-	fragment@6 {
-		target-path = "/soc";
-		__overlay__ {
-			stdout-path = "display0";
-			framebuffer0: framebuffer@3F000000 {
-				compatible = "simple-framebuffer";
-				reg = <0x3F000000 8294400>;
-				width = <1920>;
-				height = <1080>;
-				stride = <7680>;
-				format = "x8r8g8b8";
 			};
 		};
 	};
