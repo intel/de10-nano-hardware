@@ -25,7 +25,7 @@
 #set_instance_parameter_value hps_clk_out {clockFrequency} {50000000.0}
 #set_instance_parameter_value hps_clk_out {clockFrequencyKnown} {1}
 #set_instance_parameter_value hps_clk_out {resetSynchronousEdges} {NONE}
-add_instance hps_reset altera_reset_bridge 16.1
+add_instance hps_reset altera_reset_bridge
 set_instance_parameter_value hps_reset {ACTIVE_LOW_RESET} {1}
 set_instance_parameter_value hps_reset {SYNCHRONOUS_EDGES} {deassert}
 set_instance_parameter_value hps_reset {NUM_RESET_OUTPUTS} {1}
