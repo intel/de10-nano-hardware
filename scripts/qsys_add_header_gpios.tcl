@@ -1,4 +1,4 @@
-add_instance gpio_0_a altera_avalon_pio 16.1
+add_instance gpio_0_a altera_avalon_pio 
 set_instance_parameter_value gpio_0_a {bitClearingEdgeCapReg} {1}
 set_instance_parameter_value gpio_0_a {bitModifyingOutReg} {1}
 set_instance_parameter_value gpio_0_a {captureEdge} {1}
@@ -11,7 +11,7 @@ set_instance_parameter_value gpio_0_a {simDoTestBenchWiring} {0}
 set_instance_parameter_value gpio_0_a {simDrivenValue} {0.0}
 set_instance_parameter_value gpio_0_a {width} {18}
 
-add_instance gpio_0_b altera_avalon_pio 16.1
+add_instance gpio_0_b altera_avalon_pio 
 set_instance_parameter_value gpio_0_b {bitClearingEdgeCapReg} {1}
 set_instance_parameter_value gpio_0_b {bitModifyingOutReg} {1}
 set_instance_parameter_value gpio_0_b {captureEdge} {1}
@@ -24,7 +24,7 @@ set_instance_parameter_value gpio_0_b {simDoTestBenchWiring} {0}
 set_instance_parameter_value gpio_0_b {simDrivenValue} {0.0}
 set_instance_parameter_value gpio_0_b {width} {18}
 
-add_instance gpio_1_b altera_avalon_pio 16.1
+add_instance gpio_1_b altera_avalon_pio
 set_instance_parameter_value gpio_1_b {bitClearingEdgeCapReg} {1}
 set_instance_parameter_value gpio_1_b {bitModifyingOutReg} {1}
 set_instance_parameter_value gpio_1_b {captureEdge} {1}
@@ -37,7 +37,7 @@ set_instance_parameter_value gpio_1_b {simDoTestBenchWiring} {0}
 set_instance_parameter_value gpio_1_b {simDrivenValue} {0.0}
 set_instance_parameter_value gpio_1_b {width} {18}
 
-add_instance gpio_1_a altera_avalon_pio 16.1
+add_instance gpio_1_a altera_avalon_pio
 set_instance_parameter_value gpio_1_a {bitClearingEdgeCapReg} {1}
 set_instance_parameter_value gpio_1_a {bitModifyingOutReg} {1}
 set_instance_parameter_value gpio_1_a {captureEdge} {1}

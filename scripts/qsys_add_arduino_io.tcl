@@ -28,7 +28,7 @@ set_instance_parameter_value hps_0 {I2C3_PinMuxing} {FPGA}
 set_instance_parameter_value hps_0 {I2C3_Mode} {Full}
 
 #Add Components
-add_instance arduino_gpio altera_avalon_pio 16.1
+add_instance arduino_gpio altera_avalon_pio
 set_instance_parameter_value arduino_gpio {bitClearingEdgeCapReg} {1}
 set_instance_parameter_value arduino_gpio {bitModifyingOutReg} {1}
 set_instance_parameter_value arduino_gpio {captureEdge} {1}
