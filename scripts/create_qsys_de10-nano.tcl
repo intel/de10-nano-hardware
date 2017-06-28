@@ -30,7 +30,7 @@ proc build_qsys {{devkitname} {qsys_name "soc_system" }} {
 	} 
 	
 	set devicefamily "CYCLONEV"
-	set device "5CSXFC6C6U23I7"
+	set device "5CSEBA6U23I7DK"
 	
 	puts "-- Accepted parameter \$devkitname = $devkitname"
 	puts "-- Accepted parameter \$qsys_name = $qsys_name"

@@ -21,7 +21,8 @@
 
 
 set devicefamily CYCLONEV
-set device 5CSXFC6C6U23I7
+#set device 5CSXFC6C6U23I7
+set device 5CSEBA6U23I7DK
 
 set qipfiles ""
 set hdlfiles "../hdl_src/top.v,../ip/debounce/debounce.v"
