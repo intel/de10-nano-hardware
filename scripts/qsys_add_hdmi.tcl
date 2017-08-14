@@ -25,8 +25,6 @@ set_instance_parameter_value hps_0 {F2SDRAM_Width} {256}
 
 #Add Components
 add_instance clk_hdmi altera_clock_bridge
-set_instance_parameter_value clock_bridge_0 {EXPLICIT_CLOCK_RATE} {0.0}
-set_instance_parameter_value clock_bridge_0 {NUM_CLOCK_OUTPUTS} {1}
 
 add_instance custom_reset_synchronizer custom_reset_synchronizer
 set_instance_parameter_value custom_reset_synchronizer {INPUT_CLOCK_FREQUENCY} {148500000}
@@ -36,7 +34,7 @@ set_instance_parameter_value custom_reset_synchronizer {ADDITIONAL_DEPTH} {2}
 set_instance_parameter_value custom_reset_synchronizer {DISABLE_GLOBAL_NETWORK} {1}
 set_instance_parameter_value custom_reset_synchronizer {SYNC_BOTH_EDGES} {0}
 
-add_instance hdmi_mm_bridge altera_avalon_mm_bridge 16.1
+add_instance hdmi_mm_bridge altera_avalon_mm_bridge
 set_instance_parameter_value hdmi_mm_bridge {DATA_WIDTH} {32}
 set_instance_parameter_value hdmi_mm_bridge {SYMBOL_WIDTH} {8}
 set_instance_parameter_value hdmi_mm_bridge {ADDRESS_WIDTH} {10}
@@ -473,11 +471,9 @@ add_connection clk_0.clk locked_pio.clk
 add_connection clk_0.clk cvo_reset_pio.clk
 add_connection clk_0.clk pll_reset_pio.clk
 add_connection clk_0.clk pll_stream.refclk
-add_connection hps_0.h2f_user0_clock freq_cntr.csr_clk
 add_connection hps_0.h2f_user0_clock alt_vip_cl_vfb_hdmi.mem_clock
 add_connection clk_0.clk pll_stream_reconfig.mgmt_clk
 add_connection hps_0.h2f_user0_clock hps_0.f2h_sdram0_clock
-add_connection pll_stream.outclk0 freq_cntr.avalon_des_clk
 #add_connection pll_stream.outclk0 clk_hdmi.in_clk
 #add_connection pll_stream.outclk0 alt_vip_cl_vfb_hdmi.main_clock
 #add_connection pll_stream.outclk0 alt_vip_cl_cvo_hdmi.main_clock
@@ -493,7 +489,6 @@ add_connection custom_reset_synchronizer.clock_out alt_vip_cl_vfb_hdmi.main_cloc
 
 
 # Resets
-add_connection clk_0.clk_reset freq_cntr.csr_clk_reset
 #add_connection clk_0.clk_reset alt_vip_cl_vfb_hdmi.main_reset
 #add_connection clk_0.clk_reset alt_vip_cl_cvo_hdmi.main_reset
 #add_connection clk_0.clk_reset alt_vip_cl_vfb_hdmi.mem_reset
@@ -502,7 +497,6 @@ add_connection clk_0.clk_reset locked_pio.reset
 add_connection clk_0.clk_reset cvo_reset_pio.reset
 add_connection clk_0.clk_reset pll_reset_pio.reset
 #add_connection clk_0.clk_reset hdmi_mm_bridge.reset
-add_connection cvo_reset_conduit.output_reset freq_cntr.csr_clk_reset
 
 add_connection clk_0.clk_reset custom_reset_synchronizer.reset_in
 add_connection cvo_reset_conduit.output_reset custom_reset_synchronizer.reset_in

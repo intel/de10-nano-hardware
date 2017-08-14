@@ -24,7 +24,7 @@
 add_instance altchip_id_0 altchip_id 
 set_instance_parameter_value altchip_id_0 {ID_VALUE} {18446744073709551615}
 
-add_instance chip_id_read_mm_0 chip_id_read_mm 1.0
+add_instance chip_id_read_mm_0 chip_id_read_mm
 
 # connections and connection parameters
 # LW Bridge

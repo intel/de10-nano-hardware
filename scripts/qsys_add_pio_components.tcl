@@ -78,10 +78,6 @@ set_connection_parameter_value lw_mm_bridge.m0/button_pio.s1 baseAddress {0x5000
 set_connection_parameter_value lw_mm_bridge.m0/button_pio.s1 defaultConnection {0}
 
 # IRQ
-add_connection intr_capturer_0.interrupt_receiver dipsw_pio.irq interrupt
-set_connection_parameter_value intr_capturer_0.interrupt_receiver/dipsw_pio.irq irqNumber {1}
-add_connection intr_capturer_0.interrupt_receiver button_pio.irq interrupt
-set_connection_parameter_value intr_capturer_0.interrupt_receiver/button_pio.irq irqNumber {2}
 add_connection hps_0.f2h_irq0 dipsw_pio.irq interrupt
 set_connection_parameter_value hps_0.f2h_irq0/dipsw_pio.irq irqNumber {1}
 add_connection hps_0.f2h_irq0 button_pio.irq interrupt

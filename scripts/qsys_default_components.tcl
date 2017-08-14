@@ -88,9 +88,11 @@ set_instance_parameter_value onchip_memory2_0 {resetrequest_enabled} {1}
 add_instance sysid_qsys altera_avalon_sysid_qsys
 set_instance_parameter_value sysid_qsys {id} {-1395321854}
 
-add_instance axi_bridge_for_acp_128_0 axi_bridge_for_acp_128 1.0
+if {![string equal ${devkitname} {mandelbrot-de10-nano}]} {
+	add_instance axi_bridge_for_acp_128_0 axi_bridge_for_acp_128
+}
 
-add_instance por power_on_reset 1.0
+add_instance por power_on_reset
 set_instance_parameter_value por {POR_COUNT} {20}
     
 # connections and connection parameters
@@ -116,10 +118,12 @@ set_connection_parameter_value hps_0.h2f_axi_master/onchip_memory2_0.s1 arbitrat
 set_connection_parameter_value hps_0.h2f_axi_master/onchip_memory2_0.s1 baseAddress {0x0000}
 set_connection_parameter_value hps_0.h2f_axi_master/onchip_memory2_0.s1 defaultConnection {0}
 
-add_connection axi_bridge_for_acp_128_0.m0 hps_0.f2h_axi_slave avalon
-set_connection_parameter_value axi_bridge_for_acp_128_0.m0/hps_0.f2h_axi_slave arbitrationPriority {1}
-set_connection_parameter_value axi_bridge_for_acp_128_0.m0/hps_0.f2h_axi_slave baseAddress {0x0000}
-set_connection_parameter_value axi_bridge_for_acp_128_0.m0/hps_0.f2h_axi_slave defaultConnection {0}
+if {![string equal ${devkitname} {mandelbrot-de10-nano}]} {
+	add_connection axi_bridge_for_acp_128_0.m0 hps_0.f2h_axi_slave avalon
+	set_connection_parameter_value axi_bridge_for_acp_128_0.m0/hps_0.f2h_axi_slave arbitrationPriority {1}
+	set_connection_parameter_value axi_bridge_for_acp_128_0.m0/hps_0.f2h_axi_slave baseAddress {0x0000}
+	set_connection_parameter_value axi_bridge_for_acp_128_0.m0/hps_0.f2h_axi_slave defaultConnection {0}
+}
 
 # IRQ
 add_connection hps_0.f2h_irq0 jtag_uart.irq interrupt
@@ -134,7 +138,9 @@ add_connection clk_0.clk lw_mm_bridge.clk clock
 add_connection clk_0.clk sysid_qsys.clk clock
 add_connection clk_0.clk jtag_uart.clk clock
 add_connection clk_0.clk onchip_memory2_0.clk1 clock
-add_connection hps_0.h2f_user0_clock axi_bridge_for_acp_128_0.clock clock
+if {![string equal ${devkitname} {mandelbrot-de10-nano}]} {
+	add_connection hps_0.h2f_user0_clock axi_bridge_for_acp_128_0.clock clock
+}
 add_connection clk_0.clk por.clock
 
 # Resets
@@ -143,7 +149,9 @@ add_connection clk_0.clk_reset lw_mm_bridge.reset reset
 add_connection clk_0.clk_reset sysid_qsys.reset reset
 add_connection clk_0.clk_reset jtag_uart.reset reset
 add_connection clk_0.clk_reset onchip_memory2_0.reset1 reset
-add_connection clk_0.clk_reset axi_bridge_for_acp_128_0.reset reset
+if {![string equal ${devkitname} {mandelbrot-de10-nano}]} {
+	add_connection clk_0.clk_reset axi_bridge_for_acp_128_0.reset reset
+}
 
 remove_interface reset_0
 add_connection por.reset clk_0.clk_in_reset
