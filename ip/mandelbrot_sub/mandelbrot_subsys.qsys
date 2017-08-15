@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="System" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element clock_bridge_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element mandelbrot_controller_0
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
+   element mandelbrot_controller_0.sl
+   {
+      datum baseAddress
+      {
+         value = "128";
+         type = "String";
+      }
+   }
+   element mandelbrot_distributor_0
+   {
+      datum _sortIndex
+      {
+         value = "6";
+         type = "int";
+      }
+   }
+   element mandelbrot_image_feeder_0
+   {
+      datum _sortIndex
+      {
+         value = "4";
+         type = "int";
+      }
+   }
+   element mandelbrot_interrupt_pio_0
+   {
+      datum _sortIndex
+      {
+         value = "5";
+         type = "int";
+      }
+   }
+   element mandelbrot_test
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element me_sub_0
+   {
+      datum _sortIndex
+      {
+         value = "7";
+         type = "int";
+      }
+   }
+   element me_sub_1
+   {
+      datum _sortIndex
+      {
+         value = "8";
+         type = "int";
+      }
+   }
+   element me_sub_10
+   {
+      datum _sortIndex
+      {
+         value = "17";
+         type = "int";
+      }
+   }
+   element me_sub_11
+   {
+      datum _sortIndex
+      {
+         value = "18";
+         type = "int";
+      }
+   }
+   element me_sub_2
+   {
+      datum _sortIndex
+      {
+         value = "9";
+         type = "int";
+      }
+   }
+   element me_sub_3
+   {
+      datum _sortIndex
+      {
+         value = "10";
+         type = "int";
+      }
+   }
+   element me_sub_4
+   {
+      datum _sortIndex
+      {
+         value = "11";
+         type = "int";
+      }
+   }
+   element me_sub_5
+   {
+      datum _sortIndex
+      {
+         value = "12";
+         type = "int";
+      }
+   }
+   element me_sub_6
+   {
+      datum _sortIndex
+      {
+         value = "13";
+         type = "int";
+      }
+   }
+   element me_sub_7
+   {
+      datum _sortIndex
+      {
+         value = "14";
+         type = "int";
+      }
+   }
+   element me_sub_8
+   {
+      datum _sortIndex
+      {
+         value = "15";
+         type = "int";
+      }
+   }
+   element me_sub_9
+   {
+      datum _sortIndex
+      {
+         value = "16";
+         type = "int";
+      }
+   }
+   element mm_bridge_0
+   {
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+   element reset_bridge_0
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="5CSXFC6C6U23I7" />
+ <parameter name="deviceFamily" value="Cyclone V" />
+ <parameter name="deviceSpeedGrade" value="7_H6" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="false" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName" value="de10-nano.qpf" />
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface name="clk" internal="clock_bridge_0.in_clk" type="clock" dir="end" />
+ <interface
+   name="mandelbrot_interrupt_pio_0_irq"
+   internal="mandelbrot_interrupt_pio_0.irq"
+   type="interrupt"
+   dir="end" />
+ <interface
+   name="mandelbrot_subsys_s0"
+   internal="mm_bridge_0.s0"
+   type="avalon"
+   dir="end" />
+ <interface
+   name="me_sub_0_dma"
+   internal="me_sub_0.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_10_dma"
+   internal="me_sub_10.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_11_dma"
+   internal="me_sub_11.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_1_dma"
+   internal="me_sub_1.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_2_dma"
+   internal="me_sub_2.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_3_dma"
+   internal="me_sub_3.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_4_dma"
+   internal="me_sub_4.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_5_dma"
+   internal="me_sub_5.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_6_dma"
+   internal="me_sub_6.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_7_dma"
+   internal="me_sub_7.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_8_dma"
+   internal="me_sub_8.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="me_sub_9_dma"
+   internal="me_sub_9.dma_write_master_0_Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="reset"
+   internal="reset_bridge_0.in_reset"
+   type="reset"
+   dir="end" />
+ <module
+   name="clock_bridge_0"
+   kind="altera_clock_bridge"
+   version="17.0"
+   enabled="1">
+  <parameter name="DERIVED_CLOCK_RATE" value="0" />
+  <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
+  <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
+ </module>
+ <module
+   name="mandelbrot_controller_0"
+   kind="mandelbrot_controller"
+   version="1.0"
+   enabled="1" />
+ <module
+   name="mandelbrot_distributor_0"
+   kind="mandelbrot_distributor"
+   version="1.0"
+   enabled="1" />
+ <module
+   name="mandelbrot_image_feeder_0"
+   kind="mandelbrot_image_feeder"
+   version="1.0"
+   enabled="1" />
+ <module
+   name="mandelbrot_interrupt_pio_0"
+   kind="altera_avalon_pio"
+   version="17.0"
+   enabled="1">
+  <parameter name="bitClearingEdgeCapReg" value="true" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="true" />
+  <parameter name="clockRate" value="0" />
+  <parameter name="direction" value="Input" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="true" />
+  <parameter name="irqType" value="EDGE" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+ </module>
+ <module
+   name="me_sub_0"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_0</parameter>
+ </module>
+ <module
+   name="me_sub_1"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_1</parameter>
+ </module>
+ <module
+   name="me_sub_10"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_10</parameter>
+ </module>
+ <module
+   name="me_sub_11"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_11</parameter>
+ </module>
+ <module
+   name="me_sub_2"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_2</parameter>
+ </module>
+ <module
+   name="me_sub_3"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_3</parameter>
+ </module>
+ <module
+   name="me_sub_4"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_4</parameter>
+ </module>
+ <module
+   name="me_sub_5"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_5</parameter>
+ </module>
+ <module
+   name="me_sub_6"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_6</parameter>
+ </module>
+ <module
+   name="me_sub_7"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_7</parameter>
+ </module>
+ <module
+   name="me_sub_8"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_8</parameter>
+ </module>
+ <module
+   name="me_sub_9"
+   kind="mandelbrot_engine_subsys"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_CLOCK_BRIDGE_0_IN_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_DEVICE" value="5CSXFC6C6U23I7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7_H6" />
+  <parameter name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_MAP" value="" />
+  <parameter
+     name="AUTO_DMA_WRITE_MASTER_0_DATA_WRITE_MASTER_ADDRESS_WIDTH"
+     value="AddressWidth = -1" />
+  <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_me_sub_9</parameter>
+ </module>
+ <module
+   name="mm_bridge_0"
+   kind="altera_avalon_mm_bridge"
+   version="17.0"
+   enabled="1">
+  <parameter name="ADDRESS_UNITS" value="SYMBOLS" />
+  <parameter name="ADDRESS_WIDTH" value="10" />
+  <parameter name="DATA_WIDTH" value="32" />
+  <parameter name="LINEWRAPBURSTS" value="0" />
+  <parameter name="MAX_BURST_SIZE" value="1" />
+  <parameter name="MAX_PENDING_RESPONSES" value="4" />
+  <parameter name="PIPELINE_COMMAND" value="0" />
+  <parameter name="PIPELINE_RESPONSE" value="0" />
+  <parameter name="SYMBOL_WIDTH" value="8" />
+  <parameter name="SYSINFO_ADDR_WIDTH" value="8" />
+  <parameter name="USE_AUTO_ADDRESS_WIDTH" value="1" />
+  <parameter name="USE_RESPONSE" value="0" />
+ </module>
+ <module
+   name="reset_bridge_0"
+   kind="altera_reset_bridge"
+   version="17.0"
+   enabled="1">
+  <parameter name="ACTIVE_LOW_RESET" value="0" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="0" />
+  <parameter name="NUM_RESET_OUTPUTS" value="1" />
+  <parameter name="SYNCHRONOUS_EDGES" value="deassert" />
+  <parameter name="USE_RESET_REQUEST" value="0" />
+ </module>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_0.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0060" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_9.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0084" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_8.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0080" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_7.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x007c" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_6.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0078" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_5.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0074" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_4.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0070" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_3.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x006c" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_2.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0068" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_11.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x008c" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_10.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0088" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="me_sub_1.mandelbrot_colorizer_0_sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0064" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="mandelbrot_interrupt_pio_0.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0090" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="mandelbrot_controller_0.sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.0"
+   start="mm_bridge_0.m0"
+   end="mandelbrot_distributor_0.sl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0040" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_controller_0.out_vector"
+   end="mandelbrot_image_feeder_0.in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_image_feeder_0.out_vector"
+   end="mandelbrot_distributor_0.in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_00"
+   end="me_sub_0.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_01"
+   end="me_sub_1.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_02"
+   end="me_sub_2.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_03"
+   end="me_sub_3.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_04"
+   end="me_sub_4.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_05"
+   end="me_sub_5.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_06"
+   end="me_sub_6.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_07"
+   end="me_sub_7.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_08"
+   end="me_sub_8.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_09"
+   end="me_sub_9.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_10"
+   end="me_sub_10.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_distributor_0.out_vector_11"
+   end="me_sub_11.mandelbrot_coord_feeder_0_in_vector" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="mm_bridge_0.clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="reset_bridge_0.clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="mandelbrot_interrupt_pio_0.clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="mandelbrot_image_feeder_0.clock" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="mandelbrot_controller_0.clock" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="mandelbrot_distributor_0.clock" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_0.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_1.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_10.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_11.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_2.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_3.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_4.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_5.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_6.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_7.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_8.clock_bridge_0_in_clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="me_sub_9.clock_bridge_0_in_clk" />
+ <connection
+   kind="conduit"
+   version="17.0"
+   start="mandelbrot_distributor_0.Interrupt"
+   end="mandelbrot_interrupt_pio_0.external_connection">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="mm_bridge_0.reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="mandelbrot_image_feeder_0.reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="mandelbrot_controller_0.reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="mandelbrot_distributor_0.reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="mandelbrot_interrupt_pio_0.reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_0.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_1.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_10.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_11.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_2.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_3.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_4.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_5.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_6.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_7.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_8.reset_bridge_0_in_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="me_sub_9.reset_bridge_0_in_reset" />
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>

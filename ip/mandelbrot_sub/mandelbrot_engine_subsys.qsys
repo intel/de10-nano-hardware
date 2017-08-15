@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="System" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element avst_mandelbrot_engine_0
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
+   element clock_bridge_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element dma_write_master_0
+   {
+      datum _sortIndex
+      {
+         value = "5";
+         type = "int";
+      }
+   }
+   element mandelbrot_colorizer_0
+   {
+      datum _sortIndex
+      {
+         value = "4";
+         type = "int";
+      }
+   }
+   element mandelbrot_coord_feeder_0
+   {
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+   element reset_bridge_0
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="5CSXFC6C6U23I7" />
+ <parameter name="deviceFamily" value="Cyclone V" />
+ <parameter name="deviceSpeedGrade" value="7_H6" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="false" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName" value="de10-nano.qpf" />
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface
+   name="clock_bridge_0_in_clk"
+   internal="clock_bridge_0.in_clk"
+   type="clock"
+   dir="end" />
+ <interface
+   name="dma_write_master_0_Data_Write_Master"
+   internal="dma_write_master_0.Data_Write_Master"
+   type="avalon"
+   dir="start" />
+ <interface
+   name="mandelbrot_colorizer_0_sl"
+   internal="mandelbrot_colorizer_0.sl"
+   type="avalon"
+   dir="end" />
+ <interface
+   name="mandelbrot_coord_feeder_0_in_vector"
+   internal="mandelbrot_coord_feeder_0.in_vector"
+   type="avalon_streaming"
+   dir="end" />
+ <interface
+   name="reset_bridge_0_in_reset"
+   internal="reset_bridge_0.in_reset"
+   type="reset"
+   dir="end" />
+ <module
+   name="avst_mandelbrot_engine_0"
+   kind="avst_mandelbrot_engine"
+   version="1.0"
+   enabled="1" />
+ <module
+   name="clock_bridge_0"
+   kind="altera_clock_bridge"
+   version="17.0"
+   enabled="1">
+  <parameter name="DERIVED_CLOCK_RATE" value="0" />
+  <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
+  <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
+ </module>
+ <module
+   name="dma_write_master_0"
+   kind="dma_write_master"
+   version="17.0"
+   enabled="1">
+  <parameter name="BURST_ENABLE" value="1" />
+  <parameter name="DATA_WIDTH" value="256" />
+  <parameter name="ERROR_ENABLE" value="0" />
+  <parameter name="ERROR_WIDTH" value="8" />
+  <parameter name="FIFO_DEPTH" value="512" />
+  <parameter name="FIFO_SPEED_OPTIMIZATION" value="1" />
+  <parameter name="FIX_ADDRESS_WIDTH" value="32" />
+  <parameter name="GUI_BURST_WRAPPING_SUPPORT" value="0" />
+  <parameter name="GUI_MAX_BURST_COUNT" value="128" />
+  <parameter name="GUI_PROGRAMMABLE_BURST_ENABLE" value="1" />
+  <parameter name="GUI_STRIDE_WIDTH" value="1" />
+  <parameter name="LENGTH_WIDTH" value="16" />
+  <parameter name="PACKET_ENABLE" value="0" />
+  <parameter name="STRIDE_ENABLE" value="0" />
+  <parameter name="TRANSFER_TYPE" value="Aligned Accesses" />
+  <parameter name="USE_FIX_ADDRESS_WIDTH" value="1" />
+ </module>
+ <module
+   name="mandelbrot_colorizer_0"
+   kind="mandelbrot_colorizer"
+   version="1.0"
+   enabled="1" />
+ <module
+   name="mandelbrot_coord_feeder_0"
+   kind="mandelbrot_coord_feeder"
+   version="1.0"
+   enabled="1" />
+ <module
+   name="reset_bridge_0"
+   kind="altera_reset_bridge"
+   version="17.0"
+   enabled="1">
+  <parameter name="ACTIVE_LOW_RESET" value="0" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="0" />
+  <parameter name="NUM_RESET_OUTPUTS" value="1" />
+  <parameter name="SYNCHRONOUS_EDGES" value="deassert" />
+  <parameter name="USE_RESET_REQUEST" value="0" />
+ </module>
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="dma_write_master_0.Response_Source"
+   end="mandelbrot_coord_feeder_0.in_response" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_coord_feeder_0.out_descriptor"
+   end="dma_write_master_0.Command_Sink" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_colorizer_0.out_pixel"
+   end="dma_write_master_0.Data_Sink" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_coord_feeder_0.out_pixel"
+   end="mandelbrot_colorizer_0.in_pixel" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="avst_mandelbrot_engine_0.out_result"
+   end="mandelbrot_coord_feeder_0.in_result" />
+ <connection
+   kind="avalon_streaming"
+   version="17.0"
+   start="mandelbrot_coord_feeder_0.out_vector"
+   end="avst_mandelbrot_engine_0.in_vector" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="dma_write_master_0.Clock" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="reset_bridge_0.clk" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="mandelbrot_coord_feeder_0.clock" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="avst_mandelbrot_engine_0.clock" />
+ <connection
+   kind="clock"
+   version="17.0"
+   start="clock_bridge_0.out_clk"
+   end="mandelbrot_colorizer_0.clock" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="dma_write_master_0.Clock_reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="mandelbrot_colorizer_0.reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="avst_mandelbrot_engine_0.reset" />
+ <connection
+   kind="reset"
+   version="17.0"
+   start="reset_bridge_0.out_reset"
+   end="mandelbrot_coord_feeder_0.reset" />
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>

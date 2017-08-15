@@ -1,0 +1,158 @@
+/ {
+	fragment@0 {
+	        __overlay__ {
+			// These are the bridges used in the design
+	                fpga-bridges = <&fpga_bridge0 &fpga_bridge1 &fpga_bridge2>;
+
+			// I need to update SOPC2DTS to somehow include the "right"
+			// fpga generated clocks only.  for now, just add the ones needed
+			clk_0: clk_0 {
+				compatible = "fixed-clock";
+				#clock-cells;
+				clock-frequency;
+				clock-output-names = "clk_0-clk";
+			};
+
+			mandelbrot_clk: mandelbrot_clk {
+				compatible = "fixed-clock";
+				#clock-cells;
+				clock-frequency;
+				clock-output-names = "mandelbrot_clk-clk";
+			};
+
+			pll_stream: pll_stream {
+				compatible = "fixed-clock";
+				#clock-cells;
+				clock-frequency;
+				clock-output-names = "pll_stream-clk";
+			};
+
+			custom_reset_synchronizer: custom_reset_synchronizer {
+				compatible = "fixed-clock";
+				#clock-cells;
+				clock-frequency;
+				clock-output-names = "custom_reset_synchronizer-clk";
+			};
+
+			// Add gpio-leds definitions
+			leds: leds {
+				compatible = "gpio-leds";
+
+				led_fpga0: fpga0 {
+					label = "fpga_led0";
+					gpios = <&led_pio 0 0>;
+				}; //end fpga0 (led_fpga0)
+
+				led_fpga1: fpga1 {
+					label = "fpga_led1";
+					gpios = <&led_pio 1 0>;
+				}; //end fpga1 (led_fpga1)
+
+				led_fpga2: fpga2 {
+					label = "fpga_led2";
+					gpios = <&led_pio 2 0>;
+				}; //end fpga2 (led_fpga2)
+
+				led_fpga3: fpga3 {
+					label = "fpga_led3";
+					gpios = <&led_pio 3 0>;
+				}; //end fpga3 (led_fpga3)
+
+				led_fpga4: fpga4 {
+					label = "fpga_led4";
+					gpios = <&led_pio 4 0>;
+				};
+
+				led_fpga5: fpga5 {
+					label = "fpga_led5";
+					gpios = <&led_pio 5 0>;
+				};
+
+				led_fpga6: fpga6 {
+					label = "fpga_led6";
+					gpios = <&led_pio 6 0>;
+				};
+
+				led_fpga7: fpga7 {
+					label = "fpga_led7";
+					gpios = <&led_pio 7 0>;
+				};
+			};
+
+			//Add gpio keys definitions
+			keys: keys {
+				compatible = "gpio-keys";
+				#address-cells = <1>;
+				#size-cells = <0>;
+
+				SW0: SW0 {
+					label = "SW0";
+					gpios = <&dipsw_pio 0 1>;
+					linux,code = <64>;
+					debounce-interval = <50>;
+				};
+
+				SW1: SW1 {
+					label = "SW1";
+					gpios = <&dipsw_pio 1 1>;
+					linux,code = <65>;
+					debounce-interval = <50>;
+				};
+
+				SW2: SW2 {
+					label = "SW2";
+					gpios = <&dipsw_pio 2 1>;
+					linux,code = <66>;
+					debounce-interval = <50>;
+				};
+
+				SW3: SW3 {
+					label = "SW3";
+					gpios = <&dipsw_pio 3 1>;
+					linux,code = <67>;
+					debounce-interval = <50>;
+				};
+			};
+		};
+	};
+
+	// UART for Arduino Header
+	fragment@1 {
+		target-path = "/soc/serial1@ffc03000";
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	// I2C for HDMI
+	fragment@2 {
+		target-path = "/soc/i2c@ffc06000";
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	// I2C for Arduino Header
+	fragment@3 {
+		target-path = "/soc/i2c@ffc07000";
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	// SPI for Arduino Header
+	fragment@4 {
+		target-path = "/soc/spi@fff00000";
+		__overlay__ {
+			num-cs = <1>;
+			status = "okay";
+		        spidev@0 {
+				/* spidev causes a WARN_ON() so spoof with DAC compat */
+				compatible = "rohm,dh2228fv";
+				reg = <0>;      /* chip select */
+				spi-max-frequency = <1000000>;
+				enable-dma = <1>;
+			};
+		};
+	};
+};
