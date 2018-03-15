@@ -50,6 +50,7 @@ proc build_qsys {{devkitname} {qsys_name "soc_system" }} {
 	source scripts/qsys_add_pio_components.tcl
 	source scripts/qsys_add_fft128_components.tcl 
 	source scripts/qsys_add_hdmi.tcl
+	source scripts/qsys_add_hdmi_i2c.tcl
 	source scripts/qsys_add_arduino_io.tcl
 	source scripts/qsys_add_header_gpios.tcl
 	

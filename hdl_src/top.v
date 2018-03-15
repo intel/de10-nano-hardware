@@ -115,7 +115,6 @@ module top
    inout  wire [15:0] arduino_io,
    inout  wire        arduino_reset_n,
 
-`ifdef DE10_NANO
    // HDMI
    inout wire         hdmi_i2c_scl,
    inout wire         hdmi_i2c_sda,
@@ -129,7 +128,6 @@ module top
    input wire         hdmi_tx_int,
    output wire        hdmi_tx_vs,
    output wire [23:0] hdmi_tx_d,
-`endif
 
     // GPIO
       inout  wire [35:0] gpio_0,
@@ -150,7 +148,6 @@ assign arduino_reset_n = hps_fpga_reset_n;
 
 assign fpga_led_pio = fpga_led_internal;
 
-`ifdef DE10_NANO
 // i2c connection
 wire hdmi_internal_scl_o_e;
 wire hdmi_internal_scl_o;
@@ -159,7 +156,6 @@ wire hdmi_internal_sda_o;
 
 ALT_IOBUF scl_iobuf (.i(1'b0), .oe(hdmi_internal_scl_o_e), .o(hdmi_internal_scl_o), .io(hdmi_i2c_scl));
 ALT_IOBUF sda_iobuf (.i(1'b0), .oe(hdmi_internal_sda_o_e), .o(hdmi_internal_sda_o), .io(hdmi_i2c_sda));
-`endif  
 
 // arduino i2c connection
 wire arduino_internal_scl_o_e;
@@ -272,7 +268,7 @@ soc_system soc_inst (
   //STM
   .hps_0_f2h_stm_hw_events_stm_hwevents  (stm_hw_events),  
 
-`ifdef DE10_NANO
+`ifndef DE10_NANO_BASE
   //HDMI
   .clk_hdmi_clk                                      (hdmi_tx_clk),
   .alt_vip_cl_cvo_hdmi_clocked_video_vid_clk         (hdmi_tx_clk),
@@ -286,14 +282,13 @@ soc_system soc_inst (
   .alt_vip_cl_cvo_hdmi_clocked_video_vid_f           (),
   .alt_vip_cl_cvo_hdmi_clocked_video_vid_h           (),
   .alt_vip_cl_cvo_hdmi_clocked_video_vid_v           (),
+`endif
 
   //HDMI I2C
   .hps_0_i2c2_out_data   (hdmi_internal_sda_o_e),
   .hps_0_i2c2_sda        (hdmi_internal_sda_o),
   .hps_0_i2c2_clk_clk    (hdmi_internal_scl_o_e),
   .hps_0_i2c2_scl_in_clk (hdmi_internal_scl_o),
-
-`endif
 
   //Arduino
   .hps_0_spim0_txd          (arduino_hps_0_spim0_txd),
@@ -333,6 +328,13 @@ soc_system soc_inst (
   .led_pio_export           (fpga_led_internal)
 );  
 
+`ifdef DE10_NANO_BASE
+assign hdmi_tx_clk = 1'b0;
+assign hdmi_tx_d = 24'h0;
+assign hdmi_tx_de = 1'b0;
+assign hdmi_tx_vs = 1'b0;
+assign hdmi_tx_hs = 1'b0;
+`endif
 
 // Debounce logic to clean out glitches within 1ms
 debounce debounce_inst (

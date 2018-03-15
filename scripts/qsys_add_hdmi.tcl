@@ -518,9 +518,3 @@ add_interface alt_vip_cl_cvo_hdmi_clocked_video conduit end
 set_interface_property alt_vip_cl_cvo_hdmi_clocked_video EXPORT_OF alt_vip_cl_cvo_hdmi.clocked_video
 add_interface clk_hdmi clock source
 set_interface_property clk_hdmi EXPORT_OF clk_hdmi.out_clk
-add_interface hps_0_i2c2 conduit end
-set_interface_property hps_0_i2c2 EXPORT_OF hps_0.i2c2
-add_interface hps_0_i2c2_clk clock source
-set_interface_property hps_0_i2c2_clk EXPORT_OF hps_0.i2c2_clk
-add_interface hps_0_i2c2_scl_in clock sink
-set_interface_property hps_0_i2c2_scl_in EXPORT_OF hps_0.i2c2_scl_in
