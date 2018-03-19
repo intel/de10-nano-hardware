@@ -50,4 +50,4 @@ git add $STAMP.filelist
 git commit -a -s -S -m "Build:$STAMP QUARTUS:$QUART_VER"
 
 git tag -s -a tgz-RELEASE-BUILD-$STAMP -m "Build:$STAMP QUARTUS:$QUART_VER"
-git archive --format=tar.gz --prefix=de10-nano-build_$STAMP_SHORT/ --output=de10-nano-build_$STAMP_SHORT.tgz tgz-RELEASE-BUILD-$STAMP
+git archive --format=tar.gz --output=de10-nano-build_$STAMP_SHORT.tgz tgz-RELEASE-BUILD-$STAMP
