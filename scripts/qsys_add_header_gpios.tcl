@@ -1,3 +1,6 @@
+# Copyright (c) 2016 Intel Corporation
+# SPDX-License-Identifier: MIT
+
 add_instance gpio_0_a altera_avalon_pio 
 set_instance_parameter_value gpio_0_a {bitClearingEdgeCapReg} {1}
 set_instance_parameter_value gpio_0_a {bitModifyingOutReg} {1}
