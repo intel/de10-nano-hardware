@@ -52,9 +52,9 @@ DTS_COMMON =
 # AR_FILTER_OUT := downloads
 
 # initial save file list
-AR_REGEX += ip readme.txt mks sopc2dts_overlay.xml 
+AR_REGEX += ip README.md LICENSE
 AR_REGEX += scripts 
-AR_REGEX += devicetree
+AR_REGEX += devicetrees
 AR_REGEX += patches
 AR_REGEX += $(SCRIPT_DIR) 
 AR_REGEX += hdl_src
