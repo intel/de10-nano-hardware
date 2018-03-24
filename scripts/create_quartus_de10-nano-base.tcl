@@ -41,7 +41,7 @@ set_global_assignment -name VERILOG_MACRO "DE10_NANO_BASE=1"
 set_global_assignment -name EDA_SIMULATION_TOOL "<None>"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT NONE -section_id eda_simulation
 set_global_assignment -name SDC_FILE ../hdl_src/soc_system_timing.sdc
-
+set_global_assignment -name SDC_FILE ../hdl_src/soc_system_hdmi_i2c_only.sdc
 set_global_assignment -name BLOCK_RAM_TO_MLAB_CELL_CONVERSION OFF
 
 set_parameter -name MEM_A_WIDTH 15
