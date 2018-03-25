@@ -47,7 +47,7 @@ sed -i '/^\.\/\.git/d' $STAMP.filelist
 sed -i '/^\.\/$/d' $STAMP.filelist
 
 git add $STAMP.filelist
-git commit -a -s -S -m "Build:$STAMP QUARTUS:$QUART_VER"
+git commit -a -s -m "Build:$STAMP QUARTUS:$QUART_VER"
 
-git tag -s -a tgz-RELEASE-BUILD-$STAMP -m "Build:$STAMP QUARTUS:$QUART_VER"
+git tag -a tgz-RELEASE-BUILD-$STAMP -m "Build:$STAMP QUARTUS:$QUART_VER"
 git archive --format=tar.gz --output=de10-nano-build_$STAMP_SHORT.tgz tgz-RELEASE-BUILD-$STAMP
