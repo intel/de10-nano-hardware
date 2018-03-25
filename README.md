@@ -75,6 +75,31 @@ Please refer to 'make help' for all build targets, to build everything, simple m
 
 This example uses mainline u-Boot for the Intel\* Cyclone5\* FPGA.  The repository for this is available [here](http://git.denx.de/?p=u-boot.git;a=summary).  The build requires the bsp-editor preloader output created by the Intel\* SoCEDS\* tools.  Please follow the [readme](http://git.denx.de/?p=u-boot.git;a=blob_plain;f=doc/README.socfpga;hb=HEAD) available in the repository for generation and creation of the appropriate files should you want to build it yourself.  Please note that the linux build for the Terasic\* DE10-Nano-SoC does also build the bootloader.
 
+### Verify Release Build authenticity
+
+To verify the signature of the release build download please do the following on a linux host:
+
+  * Download the release tgz and sig.tgz from the release section of the github project
+  * Extract the sig.tgz file to get only the sig file
+  * Save the signing chain as a pem file
+	openssl pkcs7 -print_certs -inform der \
+		-in de10-nano-build_<VERSION>.sig \
+		> de10-nano-build.pem
+  * Verify the signing certificate
+	openssl x509 \
+		-in de10-nano-build.pem \
+		-serial -noout
+
+	The result should be:
+	serial=56000003003F7A8C8F5DD497E1000000000300
+
+  * Verify the signature of the file
+	openssl smime -verify \
+		-in de10-nano-build_<VERSION>.sig \
+		-inform der \
+		-content de10-nano-build_<VERSION>.tgz \
+		-noverify de10-nano-build.pem > /dev/null
+
 ## Additional Resources
 * [Discover the Terasic DE10-Nano Kit](https://signin.intel.com/logout?target=https://software.intel.com/en-us/iot/hardware/fpga/de10-nano)
 * [Terasic DE10-Nano Get Started Guide](https://software.intel.com/en-us/terasic-de10-nano-get-started-guide)
