@@ -2,7 +2,7 @@
 	fragment@0 {
 	        __overlay__ {
 			// These are the bridges used in the design
-	                fpga-bridges = <&fpga_bridge0 &fpga_bridge1 &fpga_bridge2>;
+	                fpga-bridges = <&fpga_bridge0 &fpga_bridge1>;
 	                
 			// I need to update SOPC2DTS to somehow include the "right" 
 			// fpga generated clocks only.  for now, just add the ones needed
