@@ -1,8 +1,10 @@
 / {
 	fragment@0 {
-	        __overlay__ {
+		#address-cells = <2>;
+		#size-cells = <1>;
+		__overlay__ {
 			// These are the bridges used in the design
-	                fpga-bridges = <&fpga_bridge0 &fpga_bridge1>;
+			fpga-bridges = <&fpga_bridge0 &fpga_bridge1>;
 	                
 			// I need to update SOPC2DTS to somehow include the "right" 
 			// fpga generated clocks only.  for now, just add the ones needed
@@ -144,6 +146,8 @@
 	fragment@4 {
 		target-path = "/soc/spi@fff00000";
 		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
 			num-cs = <1>;
 			status = "okay";
 		        spidev@0 {                                                              
@@ -153,6 +157,43 @@
 				spi-max-frequency = <1000000>;                                  
 				enable-dma = <1>;                                               
 			};
+		};
+	};
+	
+	// Set Model Name to reflect FPGA version
+	fragment@5 {
+		target-path = "/";
+		__overlay__ {
+			model = "Terasic DE10-Nano FFT";
+		};
+	};
+	
+	// Add Framebuffer defaults
+	fragment@6 {
+		target-path = "/soc";
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			framebuffer@3F000000 {
+				compatible = "simple-framebuffer";
+				reg = <0x3F000000 8294400>;
+				format = "x8r8g8b8";
+				width = <1024>;
+				height = <768>;
+				stride = <4096>;
+			};	
+		};
+	};
+	fragment@7 {
+		target-path = "/chosen";
+		__overlay__ {
+			stdout-path  = "display0";
+		};
+	};
+	fragment@8 {
+		target-path = "/aliases";
+		__overlay__ {
+			display0  = "/soc/framebuffer@3F000000";
 		};
 	};
 };

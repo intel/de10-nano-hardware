@@ -141,4 +141,12 @@
 			};
 		};
 	};
+	
+	// Set Model Name to reflect FPGA version
+	fragment@5 {
+		target-path = "/";
+		__overlay__ {
+			model = "Terasic DE10-Nano Base";
+		};
+	};
 };
